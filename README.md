@@ -1,14 +1,38 @@
-# Fibonacci in Python
+Your instructions seem to be asking for a completely different code, unrelated to the Fibonacci sequence in Python. You're asking for a CRUD (Create, Read, Update, Delete) application in Node.js. Here's a basic example using Express and an array as the data store:
 
-The Fibonacci sequence is a series of numbers in which each number is the sum of the two preceding ones, usually starting with 0 and 1. In Python, we can generate a Fibonacci sequence using various methods. Here is a simple implementation using a for loop:
+const express = require('express');
+const app = express();
+app.use(express.json());
 
-def fibonacci(n):
-    a, b = 0, 1
-    for i in range(n):
-        a, b = b, a + b
-    return a
+let data = [];
 
-# Test the function
-print(fibonacci(10))  # Output: 55
+// Create
+app.post('/data', (req, res) => {
+    data.push(req.body);
+    res.send('Data added successfully');
+});
 
-In the above code, `n` is the position of the Fibonacci sequence to return. The function starts by initializing two variables `a` and `b` to `0` and `1`, which are the first two numbers in the Fibonacci sequence. Then it enters a loop that runs `n` times. In each iteration of the loop, it updates `a` and `b` to `b` and `a + b`, which are the next two numbers in the sequence. Finally, it returns `a`, which is the `n`th number in the Fibonacci sequence.
+// Read
+app.get('/data', (req, res) => {
+    res.json(data);
+});
+
+// Update
+app.put('/data/:id', (req, res) => {
+    const id = req.params.id;
+    const newData = req.body;
+    data[id] = newData;
+    res.send(`Data at id ${id} has been updated`);
+});
+
+// Delete
+app.delete('/data/:id', (req, res) => {
+    const id = req.params.id;
+    data.splice(id, 1);
+    res.send(`Data at id ${id} has been deleted`);
+});
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
+This code creates a simple server that can handle CRUD operations on an array called `data`. Note that this is a very basic example and doesn't include any error handling or data validation, which you would want to add in a real application. Also, in a real application, you would typically use a database rather than an array to store your data.
